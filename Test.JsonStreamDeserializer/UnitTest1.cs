@@ -166,6 +166,19 @@ namespace Test.Util
             main(val.ToString());
         }
 
+        [TestMethod]
+        public void TestMethod08()
+        {
+            System.Text.StringBuilder val = new System.Text.StringBuilder();
+            val.AppendLine("{");
+            val.AppendLine("    \"keypair1\": [");
+            val.AppendLine("        [\"value1\"],");
+            val.AppendLine("        [\"value2\"]");
+            val.AppendLine("    ]");
+            val.AppendLine("}");
+            main(val.ToString());
+        }
+
         private void main(string json)
         {
             var obj = new JsonStreamDeserialize.JsonStreamDeserialize();
