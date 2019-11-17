@@ -13,8 +13,7 @@ namespace JsonStreamDeserialize
         public Dictionary<string, object> Deserialize(string jsonString)
         {
             var ret = new Dictionary<string, object>();
-            var stream = new System.IO.MemoryStream(Encoding.GetEncoding("utf-8").GetBytes(jsonString));
-            using (var reader = new System.IO.StreamReader(stream))
+            using (var reader = new System.IO.StringReader(jsonString))
             {
                 // 最初の{はいらない
                 reader.ReadLine();
@@ -27,7 +26,7 @@ namespace JsonStreamDeserialize
             return ret;
         }
 
-        private Dictionary<string, object> Deserialize(System.IO.StreamReader reader, Newtonsoft.Json.Linq.JContainer parent, string parentType)
+        private Dictionary<string, object> Deserialize(System.IO.StringReader reader, Newtonsoft.Json.Linq.JContainer parent, string parentType)
         {
             Dictionary<string, object> ret = new Dictionary<string, object>();
             string header = string.Empty;
@@ -41,10 +40,10 @@ namespace JsonStreamDeserialize
                 Deserialize(reader, (JContainer)container.First().Last(), "{");
             }
 
-            while (!reader.EndOfStream)
+            while (reader.Peek() > -1)
             {
                 string line = reader.ReadLine();
-                if (reader.EndOfStream)
+                if (reader.Peek() <= 0)
                 {
                     break;
                 }
